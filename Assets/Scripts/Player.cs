@@ -29,6 +29,9 @@ public class Player : MonoBehaviour
     void Update()
     {
 
+        //To do
+        // create a simple state machine for on and off ground animations
+
         if (Input.GetKeyDown(KeyCode.W) && isOnGround)
         {
             animator.SetTrigger("Jump");
