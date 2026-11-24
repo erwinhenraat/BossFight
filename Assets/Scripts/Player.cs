@@ -1,83 +1,99 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 5f;
+    private enum AnimationState { 
+        Idle,
+        Walk,
+        Jump,
+        Shoot,
+        Hit
+    }
     float currentSpeed = 0;
     private Animator animator;
     private Rigidbody2D rigidbody;
-
-    [SerializeField] private float maxJumpTime = 3f;
-
-    [SerializeField] private float jumpForce = 50f;
-    private float elapsedJumpTime = 0f;
-    private bool isOnGround = false;
-    
-
+    private AnimationState state;
+    private Vector2 playerInput;
+    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] private float jumpForce = 50f;    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();      
         rigidbody = GetComponent<Rigidbody2D>();
+        ChangeState(AnimationState.Jump);
 
-        animator.Play("Idle",0,Random.Range(0,1));
-        
-    }
-
+    }   
     // Update is called once per frame
     void Update()
     {
-
-        //To do
-        // create a simple state machine for on and off ground animations
-
-        if (Input.GetKeyDown(KeyCode.W) && isOnGround)
+        playerInput = Vector2.zero;
+        playerInput.x = Input.GetAxis("Horizontal");
+        playerInput.y = Input.GetAxis("Vertical");
+        currentSpeed = moveSpeed * Time.deltaTime * playerInput.x;
+        if (state == AnimationState.Idle || state == AnimationState.Walk)
         {
-            animator.SetTrigger("Jump");
-            animator.ResetTrigger("Idle");
-            rigidbody.AddForceY(jumpForce);
-            isOnGround = false;
+            if (Input.GetKeyDown(KeyCode.W))
+            {                
+                ChangeState(AnimationState.Jump);
+                Jump();
+                return;
+            }
+
+            if (playerInput.x != 0)
+            {
+               
+                AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+                if (clipInfo[0].clip.name == "Fall") animator.Play("Idle");
+
+
+                    
+                ChangeState(AnimationState.Walk);
+                FlipScale();
+                Move();                
+            }
+            else
+            {
+                ChangeState(AnimationState.Idle);
+            }
+            Move();
+
+        } else if (state == AnimationState.Jump) {
+            if (playerInput.x != 0)
+            {                
+                FlipScale();
+                Move();
+            }
         }
-        
-
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            animator.SetTrigger("Walk");
-            currentSpeed = moveSpeed;
-        }
-        else if (Input.GetKeyUp(KeyCode.D)) {
-            animator.SetTrigger("Idle");
-            currentSpeed = 0;
-        }        
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            animator.SetTrigger("Walk");
-            currentSpeed = -moveSpeed;
-        }
-        else if (Input.GetKeyUp(KeyCode.A)) {
-            animator.SetTrigger("Idle");
-            currentSpeed = 0;
-        }
-        rigidbody.transform.Translate(Vector2.right * currentSpeed * Time.deltaTime);
-
-
-
+    }
+    void Jump()
+    {
+        rigidbody.AddForceY(250);
+    }
+    void Move()
+    {
+        transform.Translate(transform.right * currentSpeed);
+    }
+    void FlipScale()
+    {
+        Vector2 scale = new Vector2((playerInput.x >= 0) ? 1 : -1, 1);
+        transform.localScale = scale;
+    }
+    void ChangeState(AnimationState newState)
+    {
+        state = newState;
+        animator.ResetTrigger("Idle");
+        animator.ResetTrigger("Walk");
+        animator.ResetTrigger("Jump"); 
+        animator.SetTrigger(newState.ToString());
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
-        if (collision.collider.CompareTag("Ground"))
-        {
-            Debug.Log(collision.collider.tag);
-            isOnGround = true;
-            Debug.Log("Landed");
-            animator.SetTrigger("Idle");
-            animator.ResetTrigger("Jump");
-
-        }
-
-    }
-    
+        if (collision.collider.CompareTag("Ground")) {
+            ChangeState(AnimationState.Idle);
+            Debug.Log("go idle");
+        }      
+    }    
 }
