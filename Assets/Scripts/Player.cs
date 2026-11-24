@@ -33,37 +33,32 @@ public class Player : MonoBehaviour
         playerInput.x = Input.GetAxis("Horizontal");
         playerInput.y = Input.GetAxis("Vertical");
         currentSpeed = moveSpeed * Time.deltaTime * playerInput.x;
+
+
+        if (playerInput.x != 0) {
+            FlipScale();
+            
+        }
         if (state == AnimationState.Idle || state == AnimationState.Walk)
         {
-            if (Input.GetKeyDown(KeyCode.W))
-            {                
-                ChangeState(AnimationState.Jump);
-                Jump();
-                return;
-            }
-
+            
             if (playerInput.x != 0)
-            {
-               
-                AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
-                if (clipInfo[0].clip.name == "Fall") animator.Play("Idle");
-
-
-                    
-                ChangeState(AnimationState.Walk);
-                FlipScale();
-                Move();                
+            {                    
+                ChangeState(AnimationState.Walk);                         
             }
             else
             {
                 ChangeState(AnimationState.Idle);
             }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                ChangeState(AnimationState.Jump);
+                Jump();
+            }
             Move();
-
         } else if (state == AnimationState.Jump) {
             if (playerInput.x != 0)
-            {                
-                FlipScale();
+            {
                 Move();
             }
         }

@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b2761a7a0253e44e9e34e0a52950d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  moveSpeed: 2
+  moveSpeed: 5
   jumpForce: 300
 --- !u!58 &126233130
 CircleCollider2D:
