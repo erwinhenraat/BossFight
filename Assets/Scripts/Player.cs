@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
@@ -17,7 +18,8 @@ public class Player : MonoBehaviour
     private AnimationState state;
     private Vector2 playerInput;
     [SerializeField] float moveSpeed = 5f;
-    [SerializeField] private float jumpForce = 50f;    
+    [SerializeField] private float jumpForce = 50f;
+    [SerializeField] private GameObject projectile;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,6 +40,11 @@ public class Player : MonoBehaviour
         if (playerInput.x != 0) {
             FlipScale();
             
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            ChangeState(AnimationState.Shoot);
+            Shoot();
         }
         if (state == AnimationState.Idle || state == AnimationState.Walk)
         {
@@ -71,6 +78,10 @@ public class Player : MonoBehaviour
     {
         transform.Translate(transform.right * currentSpeed);
     }
+    void Shoot() {
+        GameObject p = Instantiate(projectile);
+        p.transform.position = transform.position;
+    }
     void FlipScale()
     {
         Vector2 scale = new Vector2((playerInput.x >= 0) ? 1 : -1, 1);
@@ -87,8 +98,7 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Ground")) {
-            ChangeState(AnimationState.Idle);
-            Debug.Log("go idle");
+            ChangeState(AnimationState.Idle); 
         }      
     }    
 }
