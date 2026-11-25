@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
             }
         }
         else if (state == AnimationState.Shoot) {
-            Debug.Log(animator.GetAnimatorTransitionInfo(0).normalizedTime);
+           
             if (animator.GetAnimatorTransitionInfo(0).normalizedTime > 0.9f)
             {
                 ChangeState(AnimationState.Idle);
@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
         animator.ResetTrigger("Jump");
         animator.ResetTrigger("Shoot");
         animator.SetTrigger(newState.ToString());
-        Debug.Log($"State : {newState}");
+        //Debug.Log($"State : {newState}");
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

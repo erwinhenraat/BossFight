@@ -13,12 +13,12 @@ public class Projectile : MonoBehaviour
         player,
         boss
     }
-    private Origin origin;
+    [SerializeField] private Origin origin;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
+    /*
     public void SetOrigin(Origin o) {
         origin = o;
-    }
+    }*/
     void Start() {
         GetComponent<SpriteRenderer>().flipX = dir > 0 ? false : true;
     }
@@ -29,17 +29,20 @@ public class Projectile : MonoBehaviour
 
         if (transform.position.x > 10 || transform.position.x < -10) Destroy(this.gameObject);
     }
-    private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("Boss") && origin == Projectile.Origin.player)
+        Debug.Log("triggered");
+        if (collision.CompareTag("Boss") && origin == Projectile.Origin.player)
         {
             Debug.Log($"Boss is dead");
-            Destroy(other.gameObject);
+            Destroy(collision.gameObject);
         }
-        else if (other.CompareTag("Player") && origin == Projectile.Origin.boss)
+        else if (collision.CompareTag("Player") && origin == Projectile.Origin.boss)
         {
-            Destroy(other.gameObject);
+            Destroy(collision.gameObject);
             Debug.Log($"Player is dead");
         }
     }
+   
 }
