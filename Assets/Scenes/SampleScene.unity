@@ -361,11 +361,11 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 4d9f32bd0d806bb45b951d17b78da376, type: 2}
     - target: {fileID: 7878350319992209165, guid: dcb3ccac3b022504b9672e0e573b74b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.17
+      value: 6.03
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: dcb3ccac3b022504b9672e0e573b74b9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.75
+      value: -0.96
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: dcb3ccac3b022504b9672e0e573b74b9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -792,6 +792,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &964995175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 964995176}
+  m_Layer: 0
+  m_Name: waypoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &964995176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964995175}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.99, y: 3.27, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1149048089
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,6 +835,7 @@ GameObject:
   - component: {fileID: 1149048092}
   - component: {fileID: 1149048091}
   - component: {fileID: 1149048090}
+  - component: {fileID: 1149048094}
   m_Layer: 0
   m_Name: Square
   m_TagString: Boss
@@ -953,12 +985,28 @@ Transform:
   m_GameObject: {fileID: 1149048089}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7, y: 3.46, z: 0}
+  m_LocalPosition: {x: -5.65, y: 3.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1149048094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149048089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ecc736aa584dd548a32ae9ce5f74a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Boss
+  life: 10
+  waypoints:
+  - {fileID: 964995176}
+  - {fileID: 1846538808}
 --- !u!1 &1187887532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,6 +1285,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1846538807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1846538808}
+  m_Layer: 0
+  m_Name: waypoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1846538808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846538807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.31, y: 3.27, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1249,3 +1328,5 @@ SceneRoots:
   - {fileID: 592838615}
   - {fileID: 1187887535}
   - {fileID: 1149048093}
+  - {fileID: 964995176}
+  - {fileID: 1846538808}

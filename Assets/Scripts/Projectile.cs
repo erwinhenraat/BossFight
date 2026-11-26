@@ -29,7 +29,7 @@ public class Projectile : MonoBehaviour
 
         if (transform.position.x > 10 || transform.position.x < -10) Destroy(this.gameObject);
     }
-
+    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("triggered");
@@ -43,6 +43,6 @@ public class Projectile : MonoBehaviour
             Destroy(collision.gameObject);
             Debug.Log($"Player is dead");
         }
-    }
+    }*/
    
 }

@@ -12,14 +12,14 @@ public class Player : MonoBehaviour
         Shoot,
         Hit
     }
-    float currentSpeed = 0;
+    private float currentSpeed = 0f;
     private Animator animator;
     private Rigidbody2D rigidbody;
     private AnimationState state;
     private SpriteRenderer sr;
     private Vector2 playerInput;
     [SerializeField] float moveSpeed = 5f;
-    [SerializeField] private float jumpForce = 50f;
+    [SerializeField] private float jumpForce = 250f;
     [SerializeField] private GameObject projectile;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         ChangeState(AnimationState.Jump);
+
+        
 
     }   
     // Update is called once per frame
@@ -56,7 +58,7 @@ public class Player : MonoBehaviour
             {
                 ChangeState(AnimationState.Idle);
             }
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 ChangeState(AnimationState.Jump);
                 Jump();
@@ -81,7 +83,7 @@ public class Player : MonoBehaviour
     }
     void Jump()
     {
-        rigidbody.AddForceY(250);
+        rigidbody.AddForceY(jumpForce);
     }
     void Move()
     {
