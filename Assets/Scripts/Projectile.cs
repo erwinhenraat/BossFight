@@ -4,6 +4,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
     private int dir = 1;
+    private Vector2 worldSize;
     public int Dir
     {
         get { return dir; }
@@ -21,13 +22,25 @@ public class Projectile : MonoBehaviour
     }*/
     void Start() {
         GetComponent<SpriteRenderer>().flipX = dir > 0 ? false : true;
+        worldSize = GetWorldSize();       
     }
-    // Update is called once per frame
+
+    Vector2 GetWorldSize() {
+
+        Camera cam = Camera.main;       
+        Vector2 worldSize = (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, 0));
+        return worldSize;
+        
+    }
+
     void Update()
     {
         transform.Translate(transform.right * dir * speed * Time.deltaTime);
 
-        if (transform.position.x > 10 || transform.position.x < -10) Destroy(this.gameObject);
+
+        
+
+        if (transform.position.x > worldSize.x || transform.position.x < -worldSize.x) Destroy(this.gameObject);
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)

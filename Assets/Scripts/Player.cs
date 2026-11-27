@@ -1,7 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.XR;
 
 public class Player : MonoBehaviour
 {
@@ -18,28 +15,23 @@ public class Player : MonoBehaviour
     private AnimationState state;
     private SpriteRenderer sr;
     private Vector2 playerInput;
+
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 250f;
-    [SerializeField] private GameObject projectile;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private GameObject projectile;    
     void Start()
     {
         animator = GetComponent<Animator>();      
         rigidbody = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        ChangeState(AnimationState.Jump);
-
-        
-
-    }   
-    // Update is called once per frame
+        ChangeState(AnimationState.Jump);        
+    }       
     void Update()
     {
         playerInput = Vector2.zero;
         playerInput.x = Input.GetAxis("Horizontal");
         playerInput.y = Input.GetAxis("Vertical");
         currentSpeed = moveSpeed * Time.deltaTime * playerInput.x;
-
 
         if (playerInput.x != 0) {
             Flip();            
@@ -61,7 +53,9 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 ChangeState(AnimationState.Jump);
-                Jump();
+                if (Jump()) { 
+                
+                }
             }
             Move();
         }
@@ -81,9 +75,10 @@ public class Player : MonoBehaviour
         }
         
     }
-    void Jump()
+    bool Jump()
     {
         rigidbody.AddForceY(jumpForce);
+        return true;
     }
     void Move()
     {
